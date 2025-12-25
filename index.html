@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .rating-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .rating-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .rating-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error input,
+        .form-group.error textarea,
+        .form-group.error select {
+            border-color: #dc3545;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Send Us Your Feedback</h1>
+        <p class="subtitle">We'd love to hear from you</p>
+
+        <form id="feedbackForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+                <div class="error-message">Please enter your name</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                <div class="error-message">Please enter a valid email</div>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="bug">Bug Report</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="improvement">Improvement</option>
+                    <option value="other">Other</option>
+                </select>
+                <div class="error-message">Please select a category</div>
+            </div>
+
+            <div class="form-group">
+                <label>How would you rate your experience?</label>
+                <div class="rating-group">
+                    <button type="button" class="rating-btn" data-rating="1">1</button>
+                    <button type="button" class="rating-btn" data-rating="2">2</button>
+                    <button type="button" class="rating-btn" data-rating="3">3</button>
+                    <button type="button" class="rating-btn" data-rating="4">4</button>
+                    <button type="button" class="rating-btn" data-rating="5">5</button>
+                </div>
+                <input type="hidden" id="rating" name="rating">
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us your thoughts..." required></textarea>
+                <div class="error-message">Please enter a message</div>
+            </div>
+
+            <button type="submit" id="submitBtn">Submit Feedback</button>
+            <div class="success-message" id="successMessage">
+                ✓ Thank you! Your feedback has been submitted.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('feedbackForm');
+        const successMessage = document.getElementById('successMessage');
+        const ratingButtons = document.querySelectorAll('.rating-btn');
+        const ratingInput = document.getElementById('rating');
+
+        ratingButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                ratingButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                ratingInput.value = btn.dataset.rating;
+            });
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            let isValid = true;
+            const fields = ['name', 'email', 'category', 'message'];
+
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const group = input.closest('.form-group');
+
+                if (!input.value.trim()) {
+                    group.classList.add('error');
+                    isValid = false;
+                } else {
+                    group.classList.remove('error');
+                }
+            });
+
+            if (document.getElementById('email').value && !isValidEmail(document.getElementById('email').value)) {
+                document.getElementById('email').closest('.form-group').classList.add('error');
+                isValid = false;
+            }
+
+            if (isValid) {
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    category: document.getElementById('category').value,
+                    rating: ratingInput.value || 'Not rated',
+                    message: document.getElementById('message').value,
+                    timestamp: new Date().toLocaleString()
+                };
+
+                console.log('Feedback submitted:', formData);
+
+                form.style.display = 'none';
+                successMessage.style.display = 'block';
+
+                setTimeout(() => {
+                    form.reset();
+                    form.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    ratingButtons.forEach(btn => btn.classList.remove('active'));
+                    ratingInput.value = '';
+                }, 3000);
+            }
+        });
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('change', () => {
+                field.closest('.form-group').classList.remove('error');
+            });
+        });
+    </script>
+</body>
+</html>
