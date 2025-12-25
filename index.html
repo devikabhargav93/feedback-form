@@ -2,409 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Form</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: linear-gradient(135deg, #0f0f1e 0%, #1a0033 50%, #0f0f1e 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
-            animation: float 20s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(50px, 50px); }
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 0 1px rgba(102, 126, 234, 0.5);
-            max-width: 550px;
-            width: 100%;
-            padding: 50px;
-            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 1px solid rgba(102, 126, 234, 0.1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .header {
-            margin-bottom: 35px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #0f0f1e;
-            margin-bottom: 12px;
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 15px;
-            font-weight: 400;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: #2c2c3e;
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e8e8f0;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 15px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            resize: vertical;
-            background: #fafbfd;
-        }
-
-        input[type="text"]::placeholder,
-        input[type="email"]::placeholder,
-        textarea::placeholder {
-            color: #a0a0b0;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12), inset 0 0 0 1px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            min-height: 140px;
-            font-family: inherit;
-        }
-
-        select {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 20px;
-            padding-right: 40px;
-        }
-
-        .rating-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 12px;
-            justify-content: space-between;
-        }
-
-        .rating-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e8e8f0;
-            background: white;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            color: #999;
-            font-size: 15px;
-            position: relative;
-        }
-
-        .rating-btn:hover {
-            border-color: #667eea;
-            color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-        }
-
-        .rating-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        #submitBtn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #submitBtn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-        }
-
-        #submitBtn:hover::before {
-            left: 100%;
-        }
-
-        #submitBtn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-        }
-
-        #submitBtn:active {
-            transform: translateY(-1px);
-        }
-
-        .success-message {
-            display: none;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 18px;
-            border-radius: 12px;
-            margin-top: 25px;
-            text-align: center;
-            font-weight: 600;
-            animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-        }
-
-        .error-message {
-            color: #dc3545;
-            font-size: 13px;
-            margin-top: 7px;
-            display: none;
-            font-weight: 500;
-        }
-
-        .form-group.error input,
-        .form-group.error textarea,
-        .form-group.error select {
-            border-color: #dc3545;
-            background-color: rgba(220, 53, 69, 0.05);
-        }
-
-        .form-group.error .error-message {
-            display: block;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 30px;
-            }
-
-            h1 {
-                font-size: 26px;
-            }
-
-            .rating-group {
-                gap: 8px;
-            }
-
-            .rating-btn {
-                font-size: 13px;
-                padding: 10px;
-            }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#2d9a6f">
+    <title>EverPure Organics - Product Review</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Send Us Your Feedback</h1>
-            <p class="subtitle">We'd love to hear from you</p>
+            <h1>EverPure Organics</h1>
+            <p class="subtitle">Share Your Experience with Our Free Sample</p>
+            <p class="tagline">Your feedback helps us craft better natural products</p>
         </div>
 
         <form id="feedbackForm">
             <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Your name" required>
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
                 <div class="error-message">Please enter your name</div>
             </div>
 
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="your@email.com" required>
                 <div class="error-message">Please enter a valid email</div>
             </div>
 
             <div class="form-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" required>
-                    <option value="">Select a category</option>
-                    <option value="bug">Bug Report</option>
-                    <option value="feature">Feature Request</option>
-                    <option value="improvement">Improvement</option>
-                    <option value="other">Other</option>
+                <label for="product">Which Product Did You Try?</label>
+                <select id="product" name="product" required>
+                    <option value="">Select a product</option>
+                    <option value="Salts">SereNova Bath Salts</option>
+                    <option value="Soaps">PureNest Soaps</option>
+                    <option value="Both">Both Products</option>
                 </select>
-                <div class="error-message">Please select a category</div>
+                <div class="error-message">Please select a product</div>
             </div>
 
             <div class="form-group">
-                <label>How would you rate your experience?</label>
+                <label>How would you rate the product quality?</label>
                 <div class="rating-group">
-                    <button type="button" class="rating-btn" data-rating="1">1</button>
-                    <button type="button" class="rating-btn" data-rating="2">2</button>
-                    <button type="button" class="rating-btn" data-rating="3">3</button>
-                    <button type="button" class="rating-btn" data-rating="4">4</button>
-                    <button type="button" class="rating-btn" data-rating="5">5</button>
+                    <button type="button" class="rating-btn" data-rating="1" title="Poor">1</button>
+                    <button type="button" class="rating-btn" data-rating="2" title="Fair">2</button>
+                    <button type="button" class="rating-btn" data-rating="3" title="Good">3</button>
+                    <button type="button" class="rating-btn" data-rating="4" title="Very Good">4</button>
+                    <button type="button" class="rating-btn" data-rating="5" title="Excellent">5</button>
                 </div>
                 <input type="hidden" id="rating" name="rating">
             </div>
 
             <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Tell us your thoughts..." required></textarea>
-                <div class="error-message">Please enter a message</div>
+                <label for="review">Your Review</label>
+                <textarea id="review" name="review" placeholder="Tell us about your experience with the product. What did you like? Any suggestions?" required></textarea>
+                <div class="error-message">Please share your review</div>
             </div>
 
-            <button type="submit" id="submitBtn">Submit Feedback</button>
+            <div class="form-group checkbox-group">
+                <label>
+                    <input type="checkbox" id="subscribe" name="subscribe">
+                    Keep me updated on new EverPure Organics products
+                </label>
+            </div>
+
+            <button type="submit" id="submitBtn">Submit Your Review</button>
             <div class="success-message" id="successMessage">
-                ✓ Thank you! Your feedback has been submitted.
+                ✓ Thank you! Your review has been submitted. We truly appreciate your feedback!
             </div>
         </form>
     </div>
 
-    <script>
-        const form = document.getElementById('feedbackForm');
-        const successMessage = document.getElementById('successMessage');
-        const ratingButtons = document.querySelectorAll('.rating-btn');
-        const ratingInput = document.getElementById('rating');
-
-        ratingButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                ratingButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                ratingInput.value = btn.dataset.rating;
-            });
-        });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            let isValid = true;
-            const fields = ['name', 'email', 'category', 'message'];
-
-            fields.forEach(field => {
-                const input = document.getElementById(field);
-                const group = input.closest('.form-group');
-
-                if (!input.value.trim()) {
-                    group.classList.add('error');
-                    isValid = false;
-                } else {
-                    group.classList.remove('error');
-                }
-            });
-
-            if (document.getElementById('email').value && !isValidEmail(document.getElementById('email').value)) {
-                document.getElementById('email').closest('.form-group').classList.add('error');
-                isValid = false;
-            }
-
-            if (isValid) {
-                const formData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    category: document.getElementById('category').value,
-                    rating: ratingInput.value || 'Not rated',
-                    message: document.getElementById('message').value,
-                    timestamp: new Date().toLocaleString()
-                };
-
-                console.log('Feedback submitted:', formData);
-
-                form.style.display = 'none';
-                successMessage.style.display = 'block';
-
-                setTimeout(() => {
-                    form.reset();
-                    form.style.display = 'block';
-                    successMessage.style.display = 'none';
-                    ratingButtons.forEach(btn => btn.classList.remove('active'));
-                    ratingInput.value = '';
-                }, 3000);
-            }
-        });
-
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        document.querySelectorAll('input, select, textarea').forEach(field => {
-            field.addEventListener('change', () => {
-                field.closest('.form-group').classList.remove('error');
-            });
-        });
-    </script>
+    <script src="script.js" defer></script>
 </body>
 </html>

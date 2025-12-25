@@ -1,0 +1,12 @@
+{
+  "name": "everpure-organics-review-form",
+  "version": "1.0.0",
+  "description": "Product review form with Netlify Functions and Neon DB",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.5"
+  }
+}
