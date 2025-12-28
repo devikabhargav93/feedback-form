@@ -14,6 +14,7 @@ const FormManager = {
         this.form = document.getElementById('feedbackForm');
         this.submitBtn = document.getElementById('submitBtn');
         this.successMessage = document.getElementById('successMessage');
+        this.successRatingContainer = document.getElementById('successRating');
         this.ratingButtons = document.querySelectorAll('.rating-btn');
         this.ratingInput = document.getElementById('rating');
     },
@@ -48,9 +49,9 @@ const FormManager = {
             return;
         }
 
-        // Check for local file protocol
-        if (window.location.protocol === 'file:') {
-            alert('Serverless functions cannot be tested via file:// protocol. Please run this using a local server (e.g., "netlify dev").');
+        // Check for local file protocol or common static servers like Live Server
+        if (window.location.protocol === 'file:' || window.location.port === '5500') {
+            alert('Serverless functions require a Netlify environment to run. Please use "npm run dev" (Netlify CLI) instead of Live Server.');
             return;
         }
 
@@ -70,12 +71,21 @@ const FormManager = {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.details || 'Failed to submit review');
+                let errorMessage = 'Failed to submit review';
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.details || errorData.error || errorMessage;
+                } catch (e) {
+                    errorMessage = `Server error (${response.status}): ${response.statusText}`;
+                }
+                throw new Error(errorMessage);
             }
 
+            // Optional: try to parse success response but don't fail if empty
+            try { await response.json(); } catch (e) { /* ignore empty success body */ }
+
             this.displaySuccessMessage();
-            this.resetFormAfterDelay();
+            // Removed automatic reset to prevent perceived redirect
         } catch (error) {
             console.error('Submission error:', error);
             alert(`Error: ${error.message}`);
@@ -144,6 +154,20 @@ const FormManager = {
 
     displaySuccessMessage() {
         this.form.style.display = 'none';
+        
+        // Render stars based on rating
+        const rating = parseInt(this.ratingInput.value) || 0;
+        let starsHtml = '';
+        for (let i = 1; i <= 5; i++) {
+            const delay = i * 0.1;
+            if (i <= rating) {
+                starsHtml += `<span class="success-star" style="animation-delay: ${delay}s">★</span>`;
+            } else {
+                starsHtml += `<span class="success-star empty" style="animation-delay: ${delay}s">★</span>`;
+            }
+        }
+        this.successRatingContainer.innerHTML = starsHtml;
+        
         this.successMessage.style.display = 'block';
     },
 

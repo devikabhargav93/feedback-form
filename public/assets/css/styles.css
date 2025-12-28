@@ -308,14 +308,73 @@ select {
     display: none;
     background: linear-gradient(135deg, #2d8659 0%, #4CAF50 50%, #8BC34A 100%);
     color: white;
-    padding: 18px;
-    border-radius: 14px;
+    padding: 40px 30px;
+    border-radius: 20px;
     margin-top: 25px;
     text-align: center;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 8px 24px rgba(76, 175, 80, 0.35);
+    animation: slideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 15px 35px rgba(76, 175, 80, 0.3);
+}
+
+.success-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.success-message h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.success-message p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+.success-rating {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 48px;
+    margin-top: 10px;
+}
+
+.success-star {
+    color: #FFD700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6),
+                 0 0 30px rgba(255, 215, 0, 0.2);
+    display: inline-block;
+    animation: starPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.success-star.empty {
+    color: rgba(255, 255, 255, 0.2);
+    text-shadow: none;
+    animation: starPop 0.5s ease both;
+}
+
+@keyframes starPop {
+    0% {
+        transform: scale(0) rotate(-20deg);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.2) rotate(5deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
 }
 
 .error-message {
