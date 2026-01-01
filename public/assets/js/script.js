@@ -4,6 +4,19 @@ const FormManager = {
     successMessage: null,
     ratingButtons: null,
     ratingInput: null,
+    productTypeSelect: null,
+    productSelect: null,
+
+    productData: {
+        Soaps: [
+            { value: 'PureNest Soap Rose', label: 'PureNest Soap Rose' },
+            { value: 'PureNest Soap Tranquil', label: 'PureNest Soap Tranquil' }
+        ],
+        Salts: [
+            { value: 'Serenova Salts Rose', label: 'Serenova Salts Rose' },
+            { value: 'Serenova Salts Tranquil', label: 'Serenova Salts Tranquil' }
+        ]
+    },
 
     init() {
         this.cacheElements();
@@ -17,12 +30,39 @@ const FormManager = {
         this.successRatingContainer = document.getElementById('successRating');
         this.ratingButtons = document.querySelectorAll('.rating-btn');
         this.ratingInput = document.getElementById('rating');
+        this.productTypeSelect = document.getElementById('productType');
+        this.productSelect = document.getElementById('product');
     },
 
     attachEventListeners() {
         this.attachRatingListeners();
         this.attachFormSubmitListener();
         this.attachFieldChangeListeners();
+        this.attachProductTypeListener();
+    },
+
+    attachProductTypeListener() {
+        this.productTypeSelect.addEventListener('change', (e) => {
+            this.handleProductTypeChange(e.target.value);
+        });
+    },
+
+    handleProductTypeChange(productType) {
+        this.productSelect.innerHTML = '<option value="">Select a product</option>';
+        
+        if (!productType) {
+            this.productSelect.disabled = true;
+            return;
+        }
+
+        this.productSelect.disabled = false;
+        const products = this.productData[productType] || [];
+        products.forEach(product => {
+            const option = document.createElement('option');
+            option.value = product.value;
+            option.textContent = product.label;
+            this.productSelect.appendChild(option);
+        });
     },
 
     attachRatingListeners() {

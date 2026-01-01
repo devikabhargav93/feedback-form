@@ -34,14 +34,21 @@
             </div>
 
             <div class="form-group">
-                <label for="product">Which Product Did You Try?</label>
-                <select id="product" name="product" required>
-                    <option value="">Select a product</option>
-                    <option value="Salts">SereNova Bath Salts</option>
+                <label for="productType">Product Type</label>
+                <select id="productType" name="productType" required>
+                    <option value="">Select a type</option>
                     <option value="Soaps">PureNest Soaps</option>
-                    <option value="Both">Both Products</option>
+                    <option value="Salts">SereNova Salts</option>
                 </select>
-                <div class="error-message">Please select a product</div>
+                <div class="error-message">Please select a product type</div>
+            </div>
+
+            <div class="form-group">
+                <label for="product">Specific Product</label>
+                <select id="product" name="product" required disabled>
+                    <option value="">Select a product</option>
+                </select>
+                <div class="error-message">Please select a specific product</div>
             </div>
 
             <div class="form-group">
